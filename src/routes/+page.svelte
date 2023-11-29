@@ -1,5 +1,5 @@
 <script>
-    import Index from "../components/main-page.svelte";
+    import ProjectPage from "../components/project-page.svelte";
 </script>
 
 <style lang="postcss">
@@ -23,14 +23,9 @@
 
   .left {
   }
-
-  .right {
-    background-color: var(--text-color);
-    color: var(--background-color);
-  }
 </style>
 
 <div class="main-page flex justify-center items-center p-2">
   <div class="left flex-1 h-full p-2">ciao</div>
-  <div class="right flex-1 h-full rounded-lg p-16">bello</div>
+  <ProjectPage />
 </div>
