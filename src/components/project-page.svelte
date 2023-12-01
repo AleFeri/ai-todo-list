@@ -21,7 +21,7 @@
 	function setShowAdd(newValue = true) {
 		showAdd = newValue;
 		currentAdd = "";
-        console.log(project.todoList)
+		console.log(project.todoList);
 	}
 
 	function addNewTodo() {
@@ -41,13 +41,15 @@
 			<button on:click={() => setShowAdd()}>Add</button>
 			<button on:click={() => setShowAdd(false)}>Close</button>
 		</div>
-		{#if showAdd}
-			<div class="flex">
-				<button on:click={() => addNewTodo()}>+</button><input bind:value={currentAdd} type="text" name="newTodo" id="newTodo" autofocus />
-			</div>
-		{/if}
 
-		<ul class="w-48 text-sm font-medium">
+		<ul class="w-full text-sm font-medium">
+			{#if showAdd}
+				<li class="w-full rounded-t-lg">
+					<div class="flex items-center gap-4 py-2">
+						<button class="w-4 h-4" on:click={() => addNewTodo()}>+</button><input bind:value={currentAdd} type="text" name="newTodo" id="newTodo" autofocus />
+					</div>
+				</li>
+			{/if}
 			{#each project.todoList as todo}
 				<TodoTile {todo} />
 			{/each}
