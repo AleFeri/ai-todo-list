@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { setContext } from "svelte";
 	import type { Project, Todo } from "../module/types.svelte";
 	import TodoTile from "./todo-tile.svelte";
+
+	setContext("todo", { deleteToDo });
 
 	let showAdd = false;
 	let currentAdd = "";
@@ -21,13 +24,33 @@
 	function setShowAdd(newValue = true) {
 		showAdd = newValue;
 		currentAdd = "";
-		console.log(project.todoList);
 	}
 
 	function addNewTodo() {
+		if (currentAdd == "") {
+			setShowAdd(false);
+			return;
+		}
 		let newTodo: Todo = { title: currentAdd, checked: false };
 		project.todoList = [newTodo, ...project.todoList];
 		setShowAdd(false);
+	}
+
+	function onInputKeyPress(e: any) {
+		if (!e) e = window.event;
+		let keyCode = e.code || e.key;
+		if (keyCode == "Enter") {
+			addNewTodo();
+		}
+	}
+
+	function deleteToDo(toDo: Todo) {
+		const toDoIndex = project.todoList.indexOf(toDo);
+
+		if (toDoIndex !== -1) {
+			project.todoList.splice(toDoIndex, 1);
+			project.todoList = project.todoList;
+		}
 	}
 </script>
 
@@ -39,14 +62,21 @@
 		</p>
 		<div>
 			<button on:click={() => setShowAdd()}>Add</button>
-			<button on:click={() => setShowAdd(false)}>Close</button>
 		</div>
 
 		<ul class="w-full text-sm font-medium">
 			{#if showAdd}
 				<li class="w-full rounded-t-lg">
 					<div class="flex items-center gap-4 py-2">
-						<button class="w-4 h-4" on:click={() => addNewTodo()}>+</button><input bind:value={currentAdd} type="text" name="newTodo" id="newTodo" autofocus />
+						<button class="w-4 h-4" on:click={() => addNewTodo()}>+</button><input
+							bind:value={currentAdd}
+							type="text"
+							name="newTodo"
+							id="newTodo"
+							on:focusout={() => addNewTodo()}
+							on:keypress={(e) => onInputKeyPress(e)}
+							autofocus
+						/>
 					</div>
 				</li>
 			{/if}
