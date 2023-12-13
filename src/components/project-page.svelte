@@ -8,6 +8,8 @@
 	let showAdd = false;
 	let currentAdd = "";
 
+	let showCompleted = true;
+
 	let project: Project = {
 		title: "Project 1",
 		description: "Here go a small description of your project. Let’s make it 2 line to have it cooler.",
@@ -21,9 +23,20 @@
 		],
 	};
 
+	let todoList = [...project.todoList];
+
+	function getFilteredAndSortedList() {
+		return project.todoList.filter((todo) => (!showCompleted ? todo.checked == false : true)).sort();
+	}
+
 	function setShowAdd(newValue = true) {
 		showAdd = newValue;
 		currentAdd = "";
+	}
+
+	function setShowCompleted(newValue = true) {
+		showCompleted = newValue;
+		todoList = [...getFilteredAndSortedList()];
 	}
 
 	function addNewTodo() {
@@ -33,6 +46,7 @@
 		}
 		let newTodo: Todo = { title: currentAdd, checked: false };
 		project.todoList = [newTodo, ...project.todoList];
+		todoList = [...getFilteredAndSortedList()];
 		setShowAdd(false);
 	}
 
@@ -50,6 +64,7 @@
 		if (toDoIndex !== -1) {
 			project.todoList.splice(toDoIndex, 1);
 			project.todoList = project.todoList;
+			todoList = [...getFilteredAndSortedList()];
 		}
 	}
 </script>
@@ -60,8 +75,16 @@
 		<p class="mb-4 text-lg font-normal">
 			{project.description}
 		</p>
-		<div>
+		<div class="flex justify-between">
 			<button on:click={() => setShowAdd()}>Add</button>
+			<div class="flex gap-4">
+				{#if !showCompleted}
+					<button on:click={() => setShowCompleted()}>Show Completed</button>
+				{:else}
+					<button on:click={() => setShowCompleted(false)}>Hide Completed</button>
+				{/if}
+				<button>Sort By</button>
+			</div>
 		</div>
 
 		<ul class="w-full text-sm font-medium">
@@ -80,7 +103,7 @@
 					</div>
 				</li>
 			{/if}
-			{#each project.todoList as todo}
+			{#each todoList as todo}
 				<TodoTile {todo} />
 			{/each}
 		</ul>
