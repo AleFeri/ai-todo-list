@@ -2,6 +2,7 @@
 	import { setContext } from "svelte";
 	import type { Project, Todo } from "../module/types.svelte";
 	import TodoTile from "./todo-tile.svelte";
+	import { mockTodoList } from "../mockData/mockTodos";
 
 	setContext("todo", { deleteToDo });
 
@@ -12,21 +13,17 @@
 
 	let project: Project = {
 		title: "Project 1",
-		description: "Here go a small description of your project. Let’s make it 2 line to have it cooler.",
-		todoList: [
-			{ title: "1hfehfhfiefhiefhmms", checked: false },
-			{ title: "2hfehfhfiefhiefhmms", checked: false },
-			{ title: "3hfehfhfiefhiefhmms", checked: false },
-			{ title: "4hfehfhfiefhiefhmms", checked: false },
-			{ title: "5hfehfhfiefhiefhmms", checked: true },
-			{ title: "6hfehfhfiefhiefhmms", checked: true },
-		],
+		description:
+			"Here go a small description of your project. Let’s make it 2 line to have it cooler.",
+		todoList: [],
 	};
 
-	let todoList = [...project.todoList];
+	let todoList = [...mockTodoList];
 
 	function getFilteredAndSortedList() {
-		return project.todoList.filter((todo) => (!showCompleted ? todo.checked == false : true)).sort();
+		return project.todoList
+			.filter((todo) => (!showCompleted ? todo.checked == false : true))
+			.sort();
 	}
 
 	function setShowAdd(newValue = true) {
@@ -79,9 +76,13 @@
 			<button on:click={() => setShowAdd()}>Add</button>
 			<div class="flex gap-4">
 				{#if !showCompleted}
-					<button on:click={() => setShowCompleted()}>Show Completed</button>
+					<button on:click={() => setShowCompleted()}
+						>Show Completed</button
+					>
 				{:else}
-					<button on:click={() => setShowCompleted(false)}>Hide Completed</button>
+					<button on:click={() => setShowCompleted(false)}
+						>Hide Completed</button
+					>
 				{/if}
 				<button>Sort By</button>
 			</div>
@@ -91,7 +92,9 @@
 			{#if showAdd}
 				<li class="w-full rounded-t-lg">
 					<div class="flex items-center gap-4 py-2">
-						<button class="w-4 h-4" on:click={() => addNewTodo()}>+</button><input
+						<button class="w-4 h-4" on:click={() => addNewTodo()}
+							>+</button
+						><input
 							bind:value={currentAdd}
 							type="text"
 							name="newTodo"
