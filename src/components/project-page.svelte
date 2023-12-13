@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { setContext } from "svelte";
-	import type { Project, Todo } from "../module/types.svelte";
+	import type { Project, Todo } from "../module/types";
 	import TodoTile from "./todo-tile.svelte";
 	import { mockTodoList } from "../mockData/mockTodos";
 

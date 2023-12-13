@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import type { Todo } from "../module/types.svelte";
+	import type { Todo } from "../module/types";
 	
 	const { deleteToDo } = getContext('todo');
 
