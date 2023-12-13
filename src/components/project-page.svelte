@@ -1,90 +1,52 @@
 <script lang="ts">
-	import { setContext } from "svelte";
-	import type { Project, Todo } from "../module/types";
 	import TodoTile from "./todo-tile.svelte";
+	import { createTodoStore } from "$lib/store-todo";
 	import { mockTodoList } from "../mockData/mockTodos";
 
-	setContext("todo", { deleteToDo });
+	const todoStore = createTodoStore(mockTodoList);
 
 	let showAdd = false;
-	let currentAdd = "";
-
 	let showCompleted = true;
-
-	let project: Project = {
-		title: "Project 1",
-		description:
-			"Here go a small description of your project. Let’s make it 2 line to have it cooler.",
-		todoList: [],
-	};
-
-	let todoList = [...mockTodoList];
-
-	function getFilteredAndSortedList() {
-		return project.todoList
-			.filter((todo) => (!showCompleted ? todo.checked == false : true))
-			.sort();
-	}
-
-	function setShowAdd(newValue = true) {
-		showAdd = newValue;
-		currentAdd = "";
-	}
-
-	function setShowCompleted(newValue = true) {
-		showCompleted = newValue;
-		todoList = [...getFilteredAndSortedList()];
-	}
+	let newTodo = "";
+	let inputElement: HTMLInputElement;
 
 	function addNewTodo() {
-		if (currentAdd == "") {
-			setShowAdd(false);
-			return;
-		}
-		let newTodo: Todo = { title: currentAdd, checked: false };
-		project.todoList = [newTodo, ...project.todoList];
-		todoList = [...getFilteredAndSortedList()];
-		setShowAdd(false);
+		todoStore.addTodo({ title: newTodo, checked: true });
+		showAdd = false;
+		newTodo = "";
 	}
 
-	function onInputKeyPress(e: any) {
-		if (!e) e = window.event;
-		let keyCode = e.code || e.key;
-		if (keyCode == "Enter") {
-			addNewTodo();
-		}
+	function addByPressingEnter(e: any) {
+		const keyCode = e.code || e.key;
+		if (keyCode === "Enter") addNewTodo();
 	}
 
-	function deleteToDo(toDo: Todo) {
-		const toDoIndex = project.todoList.indexOf(toDo);
-
-		if (toDoIndex !== -1) {
-			project.todoList.splice(toDoIndex, 1);
-			project.todoList = project.todoList;
-			todoList = [...getFilteredAndSortedList()];
+	// Focus on the new input element
+	$: {
+		if (inputElement) {
+			inputElement.focus();
 		}
 	}
 </script>
 
 <div class="right flex-1 h-full rounded-lg p-16">
 	<div class="flex flex-col gap-4">
-		<h2 class="text-4xl font-extrabold">{project.title}</h2>
-		<p class="mb-4 text-lg font-normal">
-			{project.description}
-		</p>
+		<h2 class="text-4xl font-extrabold">Project 1</h2>
+		<p class="mb-4 text-lg font-normal">Description hard coded</p>
+
 		<div class="flex justify-between">
-			<button on:click={() => setShowAdd()}>Add</button>
+			<button on:click={() => (showAdd = true)}>Add</button>
 			<div class="flex gap-4">
 				{#if !showCompleted}
-					<button on:click={() => setShowCompleted()}
+					<button on:click={() => (showCompleted = true)}
 						>Show Completed</button
 					>
 				{:else}
-					<button on:click={() => setShowCompleted(false)}
+					<button on:click={() => (showCompleted = false)}
 						>Hide Completed</button
 					>
 				{/if}
-				<button>Sort By</button>
+				<button on:click={todoStore.sortTodos}>Sort By</button>
 			</div>
 		</div>
 
@@ -95,18 +57,18 @@
 						<button class="w-4 h-4" on:click={() => addNewTodo()}
 							>+</button
 						><input
-							bind:value={currentAdd}
+							bind:value={newTodo}
+							bind:this={inputElement}
 							type="text"
 							name="newTodo"
 							id="newTodo"
 							on:focusout={() => addNewTodo()}
-							on:keypress={(e) => onInputKeyPress(e)}
-							autofocus
+							on:keypress={(e) => addByPressingEnter(e)}
 						/>
 					</div>
 				</li>
 			{/if}
-			{#each todoList as todo}
+			{#each $todoStore as todo}
 				<TodoTile {todo} />
 			{/each}
 		</ul>
