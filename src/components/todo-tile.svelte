@@ -4,7 +4,7 @@
 	export let deleteTodo: (value: number) => void;
 
 	let editTodoHtmlInputElement: HTMLInputElement;
-	let edit = false;
+	let editMode = false;
 	let showOptions = false;
 
 	$: {
@@ -23,10 +23,10 @@
 			bind:checked={todo.checked}
 			class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2"
 		/>
-		{#if edit}
+		{#if editMode}
 			<input
 				type="text"
-				on:focusout={() => (edit = false)}
+				on:focusout={() => (editMode = false)}
 				bind:value={todo.title}
 				bind:this={editTodoHtmlInputElement}
 				class="flex-1 bg-transparent"
@@ -34,7 +34,7 @@
 		{:else}
 			<button
 				class="flex-1"
-				on:click={() => (edit = true)}
+				on:click={() => (editMode = true)}
 				aria-label="Edit Todo"
 				tabindex="0"
 			>
