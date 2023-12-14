@@ -1,13 +1,15 @@
 import { writable } from "svelte/store";
 import type { Todo } from "../module/types";
 
-let nextTodoId = 99999;
-
 export function createTodoStore(initialTodos: Todo[] = []) {
     const todos = writable<Todo[]>(initialTodos);
 
+    // get biggest id from initialTodos. Id generation will start from maxId.
+    const maxId = initialTodos.length > 0 ? Math.max(...initialTodos.map((todo) => todo.id || 0)) : 0;
+    let nextTodoId = maxId + 1;
+
     const add = (title: string, checked = false) => {
-        const todo: Todo = { title: title, checked: checked, id: nextTodoId++ };
+        const todo: Todo = { id: nextTodoId++, title: title, checked: checked, };
         todos.update((existingTodos) => [...existingTodos, todo]);
     };
 
