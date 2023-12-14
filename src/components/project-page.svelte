@@ -1,14 +1,14 @@
 <script lang="ts">
 	import TodoTile from "./todo-tile.svelte";
 	import { createTodoStore } from "$lib/store-todo";
-	import { mockTodoList } from "../mockData/mockTodos";
+	import { mockTodoList } from "../module/mockTodos";
 
 	const todoStore = createTodoStore(mockTodoList);
 
 	let showAdd = false;
 	let showCompleted = true;
 	let newTodo = "";
-	let inputElement: HTMLInputElement;
+	let newTodoHtmlInputElement: HTMLInputElement;
 
 	function addNewTodo() {
 		todoStore.addTodo({ title: newTodo, checked: true });
@@ -25,11 +25,8 @@
 		showCompleted = !showCompleted;
 	}
 
-	// Focus on the new input element
 	$: {
-		if (inputElement) {
-			inputElement.focus();
-		}
+		if (newTodoHtmlInputElement) newTodoHtmlInputElement.focus();
 	}
 </script>
 
@@ -60,7 +57,7 @@
 							>+</button
 						><input
 							bind:value={newTodo}
-							bind:this={inputElement}
+							bind:this={newTodoHtmlInputElement}
 							type="text"
 							name="newTodo"
 							id="newTodo"

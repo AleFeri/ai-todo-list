@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { getContext } from "svelte";
 	import type { Todo } from "../module/types.ts";
 
 	export let todo: Todo;
