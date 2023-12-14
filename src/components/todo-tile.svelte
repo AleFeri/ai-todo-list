@@ -7,12 +7,6 @@
 	let edit = false;
 	let showOptions = false;
 
-	async function handleFocus() {
-		editTodoHtmlInputElement.selectionStart =
-			editTodoHtmlInputElement.selectionEnd =
-				editTodoHtmlInputElement.value.length;
-	}
-
 	$: {
 		if (editTodoHtmlInputElement) editTodoHtmlInputElement.focus();
 	}
