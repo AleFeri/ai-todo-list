@@ -51,7 +51,7 @@
 			{#if showAdd}
 				<li class="w-full rounded-t-lg">
 					<div class="flex items-center gap-4 py-2">
-						<button class="w-4 h-4" on:click={() => addNewTodo()}
+						<button class="w-4 h-4" on:click={addNewTodo}
 							>+</button
 						><input
 							bind:value={newTodo}
@@ -59,7 +59,7 @@
 							type="text"
 							name="newTodo"
 							id="newTodo"
-							on:focusout={() => addNewTodo()}
+							on:focusout={addNewTodo}
 							on:keypress={(e) => addByPressingEnter(e)}
 						/>
 					</div>
