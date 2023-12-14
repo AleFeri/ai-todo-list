@@ -9,6 +9,7 @@
 	let showCompletedTodos = true;
 	let newTodo = "";
 	let newTodoHtmlInputElement: HTMLInputElement;
+	let sortAscending = true;
 
 	function addNewTodo() {
 		todoStore.add(newTodo);
@@ -23,6 +24,11 @@
 
 	function deleteTodo(todoId: number) {
 		todoStore.remove(todoId);
+	}
+
+	function sortTodoList() {
+		todoStore.sort(sortAscending);
+		sortAscending = !sortAscending;
 	}
 
 	$: {
@@ -47,7 +53,7 @@
 						>Hide Completed</button
 					>
 				{/if}
-				<button on:click={todoStore.sort}>Sort By</button>
+				<button on:click={sortTodoList}>Sort By</button>
 			</div>
 		</div>
 
@@ -70,7 +76,7 @@
 			{/if}
 			{#each $todoStore as todo}
 				{#if showCompletedTodos || !todo.checked}
-					<TodoTile {todo} {deleteTodo}/>
+					<TodoTile {todo} {deleteTodo} />
 				{/if}
 			{/each}
 		</ul>
