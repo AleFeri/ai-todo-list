@@ -1,12 +1,14 @@
 import { writable } from "svelte/store";
 import type { Todo } from "../module/types";
 
+let nextTodoId = 99999;
+
 export function createTodoStore(initialTodos: Todo[] = []) {
     const todos = writable<Todo[]>(initialTodos);
 
-
-    const add = (title: string, checked = false, id = 11) => {
-        todos.update((existingTodos) => [...existingTodos, { id, title, checked }]);
+    const add = (title: string, checked = false) => {
+        const todo: Todo = { title: title, checked: checked, id: nextTodoId++ };
+        todos.update((existingTodos) => [...existingTodos, todo]);
     };
 
     const remove = (id: number) => {
