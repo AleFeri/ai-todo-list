@@ -38,9 +38,14 @@
 				class="flex-1 bg-transparent"
 			/>
 		{:else}
-			<div class="flex-1" on:click={() => (edit = true)}>
+			<button
+				class="flex-1"
+				on:click={() => (edit = true)}
+				aria-label="Edit Todo"
+				tabindex="0"
+			>
 				{todo.title}
-			</div>
+			</button>
 		{/if}
 
 		{#if showOptions}
