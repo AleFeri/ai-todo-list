@@ -33,7 +33,7 @@
 			/>
 		{:else}
 			<button
-				class="flex-1"
+				class="flex-1 text-start"
 				on:click={() => (editMode = true)}
 				aria-label="Edit Todo"
 				tabindex="0"
