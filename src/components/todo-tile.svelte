@@ -1,17 +1,16 @@
 <script lang="ts">
 	import type { Todo } from "../module/types";
 	export let todo: Todo;
+	export let deleteTodo: (value: number) => void;
 
 	let inputElement: HTMLInputElement;
 	let edit = false;
 	let showOptions = false;
-	
+
 	async function handleFocus() {
 		inputElement.selectionStart = inputElement.selectionEnd =
 			inputElement.value.length;
 	}
-
-	function test() {}
 </script>
 
 <li
@@ -41,7 +40,7 @@
 		{/if}
 
 		{#if showOptions}
-			<button on:click={test}>DEL</button>
+			<button on:click={() => deleteTodo(todo.id)}>DEL</button>
 		{/if}
 	</div>
 </li>

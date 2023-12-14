@@ -11,7 +11,7 @@
 	let newTodoHtmlInputElement: HTMLInputElement;
 
 	function addNewTodo() {
-		todoStore.addTodo({ title: newTodo, checked: true });
+		todoStore.add(newTodo);
 		showAdd = false;
 		newTodo = "";
 	}
@@ -19,6 +19,14 @@
 	function addByPressingEnter(e: any) {
 		const keyCode = e.code || e.key;
 		if (keyCode === "Enter") addNewTodo();
+	}
+
+	function deleteTodo(todoId: number) {
+		todoStore.remove(todoId);
+	}
+
+	function editTodo(value: number) {
+		console.log(value);
 	}
 
 	$: {
@@ -43,7 +51,7 @@
 						>Hide Completed</button
 					>
 				{/if}
-				<button on:click={todoStore.sortTodos}>Sort By</button>
+				<button on:click={todoStore.sort}>Sort By</button>
 			</div>
 		</div>
 
@@ -51,8 +59,7 @@
 			{#if showAdd}
 				<li class="w-full rounded-t-lg">
 					<div class="flex items-center gap-4 py-2">
-						<button class="w-4 h-4" on:click={addNewTodo}
-							>+</button
+						<button class="w-4 h-4" on:click={addNewTodo}>+</button
 						><input
 							bind:value={newTodo}
 							bind:this={newTodoHtmlInputElement}
@@ -67,7 +74,7 @@
 			{/if}
 			{#each $todoStore as todo}
 				{#if showCompletedTodos || !todo.checked}
-					<TodoTile {todo} />
+					<TodoTile {todo} {deleteTodo}/>
 				{/if}
 			{/each}
 		</ul>
