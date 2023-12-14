@@ -25,10 +25,6 @@
 		todoStore.remove(todoId);
 	}
 
-	function editTodo(value: number) {
-		console.log(value);
-	}
-
 	$: {
 		if (newTodoHtmlInputElement) newTodoHtmlInputElement.focus();
 	}
