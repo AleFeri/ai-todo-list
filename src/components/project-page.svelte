@@ -12,8 +12,9 @@
 	let sortAscending = true;
 
 	function addNewTodo() {
-		todoStore.add(newTodo);
 		showAdd = false;
+		if (newTodo === "") return;
+		todoStore.add(newTodo);
 		newTodo = "";
 	}
 
@@ -68,6 +69,7 @@
 							type="text"
 							name="newTodo"
 							id="newTodo"
+							placeholder="Start typing to create a todo"
 							on:focusout={addNewTodo}
 							on:keypress={(e) => addByPressingEnter(e)}
 						/>
