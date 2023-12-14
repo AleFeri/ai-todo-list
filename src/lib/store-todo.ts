@@ -10,7 +10,7 @@ export function createTodoStore(initialTodos: Todo[] = []) {
 
     const add = (title: string, checked = false) => {
         const todo: Todo = { id: nextTodoId++, title: title, checked: checked, };
-        todos.update((existingTodos) => [...existingTodos, todo]);
+        todos.update((existingTodos) => [todo, ...existingTodos]);
     };
 
     const remove = (id: number) => {

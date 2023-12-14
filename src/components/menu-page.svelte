@@ -2,13 +2,17 @@
 	let isOpen = true;
 	let searchText = "";
 
+	function addProject() {
+		
+	}
+
 	function toggleOpen() {
 		isOpen = !isOpen;
 	}
 </script>
 
 <div class="flex flex-col {isOpen ? 'gap-8' : 'justify-between'} h-full p-8">
-	<button class="text-start" on:click={() => toggleOpen()}
+	<button class="text-start" on:click={toggleOpen}
 		>{isOpen ? "X" : "="}</button
 	>
 
@@ -41,7 +45,7 @@
 
 			<div class="flex flex-col gap-4">
 				<div>Projects (1)</div>
-				<div>+ Create New Project</div>
+				<button on:click={addProject} class="text-start">+ Create New Project</button>
 				<div>Projects List</div>
 			</div>
 		</div>
