@@ -3,13 +3,18 @@
 	export let todo: Todo;
 	export let deleteTodo: (value: number) => void;
 
-	let inputElement: HTMLInputElement;
+	let editTodoHtmlInputElement: HTMLInputElement;
 	let edit = false;
 	let showOptions = false;
 
 	async function handleFocus() {
-		inputElement.selectionStart = inputElement.selectionEnd =
-			inputElement.value.length;
+		editTodoHtmlInputElement.selectionStart =
+			editTodoHtmlInputElement.selectionEnd =
+				editTodoHtmlInputElement.value.length;
+	}
+
+	$: {
+		if (editTodoHtmlInputElement) editTodoHtmlInputElement.focus();
 	}
 </script>
 
@@ -28,9 +33,8 @@
 			<input
 				type="text"
 				on:focusout={() => (edit = false)}
-				on:focus={() => handleFocus()}
 				bind:value={todo.title}
-				bind:this={inputElement}
+				bind:this={editTodoHtmlInputElement}
 				class="flex-1 bg-transparent"
 			/>
 		{:else}
