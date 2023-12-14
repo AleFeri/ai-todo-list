@@ -1,4 +1,5 @@
 <script>
+    import MenuPage from "../components/menu-page.svelte";
     import ProjectPage from "../components/project-page.svelte";
 </script>
 
@@ -20,12 +21,9 @@
     width: 100vw;
     height: 100vh;
   }
-
-  .left {
-  }
 </style>
 
-<div class="main-page flex justify-center items-center p-2">
-  <div class="left flex-1 h-full p-2">ciao</div>
+<div class="main-page flex gap-2 items-center p-2">
+  <MenuPage />
   <ProjectPage />
 </div>
