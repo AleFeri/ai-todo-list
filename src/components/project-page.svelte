@@ -6,7 +6,7 @@
 	const todoStore = createTodoStore(mockTodoList);
 
 	let showAdd = false;
-	let showCompleted = true;
+	let showCompletedTodos = true;
 	let newTodo = "";
 	let newTodoHtmlInputElement: HTMLInputElement;
 
@@ -34,11 +34,13 @@
 		<div class="flex justify-between">
 			<button on:click={() => (showAdd = true)}>Add</button>
 			<div class="flex gap-4">
-				{#if !showCompleted}
-					<button on:click={() => showCompleted=true}>Show Completed</button
+				{#if !showCompletedTodos}
+					<button on:click={() => (showCompletedTodos = true)}
+						>Show Completed</button
 					>
 				{:else}
-					<button on:click={() => showCompleted=false}>Hide Completed</button
+					<button on:click={() => (showCompletedTodos = false)}
+						>Hide Completed</button
 					>
 				{/if}
 				<button on:click={todoStore.sortTodos}>Sort By</button>
@@ -64,7 +66,7 @@
 				</li>
 			{/if}
 			{#each $todoStore as todo}
-				{#if showCompleted || !todo.checked}
+				{#if showCompletedTodos || !todo.checked}
 					<TodoTile {todo} />
 				{/if}
 			{/each}
