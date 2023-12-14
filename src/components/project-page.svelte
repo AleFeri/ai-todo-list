@@ -21,10 +21,6 @@
 		if (keyCode === "Enter") addNewTodo();
 	}
 
-	function showCompletedTodos() {
-		showCompleted = !showCompleted;
-	}
-
 	$: {
 		if (newTodoHtmlInputElement) newTodoHtmlInputElement.focus();
 	}
@@ -39,10 +35,10 @@
 			<button on:click={() => (showAdd = true)}>Add</button>
 			<div class="flex gap-4">
 				{#if !showCompleted}
-					<button on:click={showCompletedTodos}>Show Completed</button
+					<button on:click={() => showCompleted=true}>Show Completed</button
 					>
 				{:else}
-					<button on:click={showCompletedTodos}>Hide Completed</button
+					<button on:click={() => showCompleted=false}>Hide Completed</button
 					>
 				{/if}
 				<button on:click={todoStore.sortTodos}>Sort By</button>
