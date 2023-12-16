@@ -13,6 +13,18 @@ export function createTodoStore(initialTodos: Todo[] = []) {
         todos.update((existingTodos) => [todo, ...existingTodos]);
     };
 
+    const updateById = (id: number, title: string, checked: boolean) => {
+        todos.update((existingTodos) =>
+            existingTodos.map((todo) => {
+                if (todo.id === id) {
+                    return { ...todo, title, checked };
+                } else {
+                    return todo;
+                }
+            })
+        );
+    };
+
     const remove = (id: number) => {
         todos.update((existingTodos) => existingTodos.filter((t) => t.id !== id));
     };
@@ -26,5 +38,5 @@ export function createTodoStore(initialTodos: Todo[] = []) {
         );
     };
 
-    return { ...todos, add, remove, sort };
+    return { ...todos, add, remove, sort, updateById };
 }

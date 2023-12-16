@@ -2,6 +2,7 @@
 	import TodoTile from "./todo-tile.svelte";
 	import { createTodoStore } from "$lib/store-todo";
 	import { mockTodoList } from "../module/mockTodos";
+	import type { Todo } from "../module/types";
 
 	const todoStore = createTodoStore(mockTodoList);
 
@@ -25,6 +26,14 @@
 
 	function deleteTodo(todoId: number) {
 		todoStore.remove(todoId);
+	}
+
+	function editTodo(todoEdited: Todo) {
+		todoStore.updateById(
+			todoEdited.id,
+			todoEdited.title,
+			!todoEdited.checked,
+		);
 	}
 
 	function sortTodoList() {
@@ -78,7 +87,7 @@
 			{/if}
 			{#each $todoStore as todo}
 				{#if showCompletedTodos || !todo.checked}
-					<TodoTile {todo} {deleteTodo} />
+					<TodoTile {todo} {deleteTodo} {editTodo} />
 				{/if}
 			{/each}
 		</ul>
