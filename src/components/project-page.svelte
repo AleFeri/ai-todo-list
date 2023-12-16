@@ -30,9 +30,7 @@
 
 	function editTodo(todoEdited: Todo) {
 		todoStore.updateById(
-			todoEdited.id,
-			todoEdited.title,
-			!todoEdited.checked,
+			todoEdited
 		);
 	}
 
