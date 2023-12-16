@@ -14,15 +14,20 @@ export function createTodoStore(initialTodos: Todo[] = []) {
     };
 
     const updateById = (id: number, title: string, checked: boolean) => {
-        todos.update((existingTodos) =>
-            existingTodos.map((todo) => {
-                if (todo.id === id) {
-                    return { ...todo, title, checked };
-                } else {
-                    return todo;
-                }
-            })
-        );
+        todos.update((existingTodos) => {
+            const index = existingTodos.findIndex((todo) => todo.id === id);
+
+            if (index !== -1) {
+                const updatedTodo = { ...existingTodos[index], title, checked };
+                return [
+                    ...existingTodos.slice(0, index),
+                    updatedTodo,
+                    ...existingTodos.slice(index + 1),
+                ];
+            } else {
+                return existingTodos;
+            }
+        });
     };
 
     const remove = (id: number) => {
